@@ -6,6 +6,8 @@ import { useEffect, useRef, useState } from "react";
 import Web3Modal from "web3modal";
 import { useViewerConnection, useViewerRecord } from "@self.id/react";
 import { EthereumAuthProvider } from "@self.id/web";
+import { Container, Spacer, Text, Grid, Button, Input, Loading } from '@nextui-org/react';
+import Footer from '@/Components/Footer';
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -21,6 +23,7 @@ export default function Home() {
   };
 
   useEffect(() => {
+    console.log('status of connection: ', connection.status)
     if (connection.status !== "connected") {
       web3ModalRef.current = new Web3Modal({
         network: "goerli",
@@ -43,7 +46,8 @@ export default function Home() {
   };
 
   return (
-    <div className={styles.main}>
+    <div>
+      <Container css={{p: '0', minHeight: '90vh'}} >
     <div className={styles.navbar}>
       <span className={styles.title}>Ceramic Demo</span>
       {connection.status === "connected" ? (
@@ -54,28 +58,34 @@ export default function Home() {
           className={styles.button}
           disabled={connection.status === "connecting"}
         >
-          Connect
+          Connect Wallet
         </button>
       )}
     </div>
 
-    <div className={styles.content}>
-      <div className={styles.connection}>
+    <div >
+      <div>
         {connection.status === "connected" ? (
-          <div>
-            <span className={styles.subtitle}>
-              Your 3ID is {connection.selfID.id}
-            </span>
+          <>
+          <Container display='flex' justify='center' css={{p: '$8'}}>
+              <Text>Your 3ID is: </Text> 
+              <Text b color='primary' css={{ overflow: "hidden", wordWrap: "break-word"}}>{connection.selfID.id}</Text>
+               <Spacer/>
+            </Container>
             <RecordSetter />
-          </div>
+          </>
+            
         ) : (
-          <span className={styles.subtitle}>
+          <Container >
             Connect with your wallet to access your 3ID
-          </span>
+          </Container>
         )}
       </div>
     </div>
-  </div>
+  </Container>
+  <Footer/>
+    </div>
+    
   )
 }
 
@@ -83,16 +93,20 @@ export default function Home() {
 function RecordSetter() { 
   const record = useViewerRecord("basicProfile");
   const [name, setName] = useState("");
+  const [updating, setUpdating] = useState(false)
 
   const updateRecordName = async (name) => {
+    setUpdating(true)
     await record.merge({
       name: name,
     });
+    setName('')
+    setUpdating(false)
   };
 
   return (
-    <div className={styles.content}>
-      <div className={styles.mt2}>
+    <div >
+      <div >
         {record.content ? (
           <div className={styles.flexCol}>
             <span className={styles.subtitle}>Hello {record.content.name}!</span>
@@ -109,15 +123,29 @@ function RecordSetter() {
           </span>
         )}
       </div>
-  
-      <input
-        type="text"
-        placeholder="Name"
-        value={name}
-        onChange={(e) => setName(e.target.value)}
-        className={styles.mt2}
-      />
-      <button onClick={() => updateRecordName(name)}>Update</button>
+      <Spacer/>
+      <Grid.Container justify='center' alignItems='center' gap={1}>
+        <Grid>
+          <Input
+          color='primary'
+          bordered
+          type="text"
+          placeholder="Name"
+          value={name}
+          onChange={(e) => setName(e.target.value)}
+          />
+        </Grid>
+        <Grid>
+        {updating ? (<>
+          <Button disabled auto bordered color="primary" css={{ px: "$13" }}><Loading type='spinner' color='currentColor' size='sm'/></Button>
+          </>):(<>
+            <Button size='xs' onClick={() => updateRecordName(name)}>Update</Button>
+          </>)}
+        </Grid>
+     
+      </Grid.Container>
+      
+      
     </div>
   );
 }

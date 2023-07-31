@@ -18,7 +18,7 @@
 .content {
   height: 80%;
   width: 100%;
-  padding-left: 5%;
+  padding-left:  5%;
   padding-right: 5%;
   display: flex;
   flex-direction: column;
@@ -29,14 +29,20 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  padding-right: 5%;
+  padding-left: 5%;
 }
 
 .connection {
   margin-top: 2%;
+  padding-left: 15%;
+  padding-right: 15%;
 }
 
 .mt2 {
   margin-top: 2%;
+  padding-left: 15%;
+  padding-right: 15%;
 }
 
 .subtitle {
