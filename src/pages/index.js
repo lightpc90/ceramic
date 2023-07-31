@@ -76,7 +76,7 @@ export default function Home() {
           </>
             
         ) : (
-          <Container >
+          <Container align='center' >
             Connect with your wallet to access your 3ID
           </Container>
         )}
@@ -117,10 +117,13 @@ function RecordSetter() {
             </span>
           </div>
         ) : (
-          <span>
-            You do not have a profile record attached to your 3ID. Create a basic
-            profile by setting a name below.
-          </span>
+          <div className={styles.flexCol}>
+            <span>
+              You do not have a profile record attached to your 3ID. Create a basic
+              profile by setting a name below.
+            </span>
+          </div>
+          
         )}
       </div>
       <Spacer/>
