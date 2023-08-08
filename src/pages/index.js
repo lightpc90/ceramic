@@ -54,7 +54,7 @@ export default function Home() {
         <span className={styles.subtitle}>Connected</span>
       ) : (
         <button
-          onClick={connectToSelfID}
+        onPress={connectToSelfID}
           className={styles.button}
           disabled={connection.status === "connecting"}
         >
@@ -142,7 +142,7 @@ function RecordSetter() {
         {updating ? (<>
           <Button disabled auto bordered color="primary" css={{ px: "$13" }}><Loading type='spinner' color='currentColor' size='sm'/></Button>
           </>):(<>
-            <Button size='xs' onClick={() => updateRecordName(name)}>Update</Button>
+            <Button size='xs' onPress={() => updateRecordName(name)}>Update</Button>
           </>)}
         </Grid>
      
